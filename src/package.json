@@ -1,0 +1,17 @@
+{
+  "name": "Dc_Assistent",
+  "version": "0.04.20",
+  "description": "ein Bot_assistent zum managen von Discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Sebastian Ulrich",
+  "license": "ISC, Private",
+  "dependencies": {
+    "discord.js": "^11.6.3",
+    "fs": "0.0.1-security",
+    "mysql": "^2.17.1"
+  }
+}
