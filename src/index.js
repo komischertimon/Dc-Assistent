@@ -54,13 +54,13 @@ client.on('voiceStateUpdate', (oldMember, newMember)=>{
   
     if(oldUserChannel == undefined && newUserChannel != undefined) {
         // User Joins a voice channel
-        if(newMember == "<@!279230092167872512>"){
+        if(newMember == `<@!${config.owner}>`){
             console.log("Surice Joined Channel");
             client.user.setActivity("In Voice call");
             save[0] = "In Voice call";
             uploadSave();
         }
-        else if(newMember == "<@289740759291133952>"){
+        else if(newMember == `<@${config.mobile}>`){
             console.log("Surice_mobile Joined Channel");
             client2.user.setActivity("In Voice call");
             save[1] = "In Voice call";
@@ -68,13 +68,13 @@ client.on('voiceStateUpdate', (oldMember, newMember)=>{
         }
     } else if(newUserChannel == undefined && oldUserChannel != undefined){
         // User leaves a voice channel
-        if(newMember == "<@!279230092167872512>"){
+        if(newMember == `<@!${config.owner}>`){
             console.log("Surice Left Channel");
             client.user.setActivity(null);
             save[0] = null;
             uploadSave();
         }
-        else if(newMember == "<@289740759291133952>"){
+        else if(newMember == `<@${config.mobile}>`){
             console.log("Surice_mobile Left Channel");
             client2.user.setActivity(null);
             save[1] = null;
