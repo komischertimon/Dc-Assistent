@@ -429,31 +429,36 @@ function uploadSave(){
 }
 function setup(){
     console.log("Run Setup...\n");
-    var log = notifier.channels.get(config.logchannel);
 
-    log.fetchMessages({ limit: 1 }).then(messages => {
-        let lastmessage = messages.first();
-    var saves = lastmessage.content;
-        saves = saves.split("\n");
-        
-    console.log(saves);
-    if(saves[0] == 0){
-        saves[0] = null;
-    }
-    if(saves[1] == 0){
-        saves[1] = null;
-    }
-    if(saves[2] == 0){
-        saves[2] = null;
-    }
+    try{
+        var log = notifier.channels.get(config.logchannel);
 
-    botmsgid = saves[2];
+        log.fetchMessages({ limit: 1 }).then(messages => {
+            let lastmessage = messages.first();
+        var saves = lastmessage.content;
+            saves = saves.split("\n");
+            
+        console.log(saves);
+        if(saves[0] == 0){
+            saves[0] = null;
+        }
+        if(saves[1] == 0){
+            saves[1] = null;
+        }
+        if(saves[2] == 0){
+            saves[2] = null;
+        }
 
-    client.user.setActivity(saves[0]);
-    client2.user.setActivity(saves[1]);
-    console.log(`Activtiy set to ${saves[0]} & ${saves[1]}`);
-    console.log("Setup completed!");
-    });
+        botmsgid = saves[2];
+
+        client.user.setActivity(saves[0]);
+        client2.user.setActivity(saves[1]);
+        console.log(`Activtiy set to ${saves[0]} & ${saves[1]}`);
+        console.log("Setup completed!");
+        });
+    }catch(err){
+        console.log(err);
+    }
 }
 
 function codingwhile0(codwhile){
