@@ -480,6 +480,7 @@ function codingwhile3(){
 }
 
 
+//client Logins
 client.login(config.token);
 client2.login(config.token2);
 notifier.login(config.tokennotifier);
