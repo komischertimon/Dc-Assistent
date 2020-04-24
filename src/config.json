@@ -1,11 +1,11 @@
 {
     "token": "TOKEN_#1",
     "token2": "TOKEN_#2",
-    "tokennotifier": "Bot_TOKEN",
+    "tokennotifier": "Bot-TOKEN",
+    "notifier": "Bot-ID",
     "prefix": "??",
     "prefixlengh": 2,
-    "owner": "USER-ID",
+    "owner": "279230092167872512",
     "confchannel": "CHANNEL-ID",
-    "log": "CHANNEL-ID",
-    "mobile": "USER-ID"
+    "logchannel": "CHANNEL-ID"
 }

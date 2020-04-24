@@ -54,14 +54,14 @@ client.on('voiceStateUpdate', (oldMember, newMember)=>{
   
     if(oldUserChannel == undefined && newUserChannel != undefined) {
         // User Joins a voice channel
-        if(newMember == `<@!${config.owner}>`){
-            console.log("Surice Joined Channel");
+        if(newMember == `<@!${client.user.id}>`){
+            console.log(`${client.user.username} Joined Channel`);
             client.user.setActivity("In Voice call");
             save[0] = "In Voice call";
             uploadSave();
         }
-        else if(newMember == `<@${config.mobile}>`){
-            console.log("Surice_mobile Joined Channel");
+        else if(newMember == `<@${client2.user.id}>`){
+            console.log(`${client2.user.username} Joined Channel`);
             client2.user.setActivity("In Voice call");
             save[1] = "In Voice call";
             uploadSave();
@@ -69,13 +69,13 @@ client.on('voiceStateUpdate', (oldMember, newMember)=>{
     } else if(newUserChannel == undefined && oldUserChannel != undefined){
         // User leaves a voice channel
         if(newMember == `<@!${config.owner}>`){
-            console.log("Surice Left Channel");
+            console.log(`${client.user.username} Lefted Channel`);
             client.user.setActivity(null);
             save[0] = null;
             uploadSave();
         }
         else if(newMember == `<@${config.mobile}>`){
-            console.log("Surice_mobile Left Channel");
+            console.log(`${client2.user.username} Lefted Channel`);
             client2.user.setActivity(null);
             save[1] = null;
             uploadSave();
@@ -298,12 +298,12 @@ function awhas(msg, cl){
 
                 if(cl == "1"){
                     //Pc Angeschrieben
-                    notifier.users.get('279230092167872512').send({embed: {color: 0xffad15, fields: [{name: "DC Assistent", value: "New Message From: "+ msg.author.username}], timestamp: new Date(), footer: {text: msg.author.id}}}).catch(console.error);
+                    notifier.users.get(client.user.id).send({embed: {color: 0xffad15, fields: [{name: "DC Assistent", value: "New Message From: "+ msg.author.username}], timestamp: new Date(), footer: {text: msg.author.id}}}).catch(console.error);
                     msguserlistcl1.push(msg.author.id);
                 }
                 else if(cl == "2"){
                     //Handy Angeschrieben
-                    notifier.users.get('289740759291133952').send({embed: {color: 0xffad15, fields: [{name: "DC Assistent", value: "New Message From: "+ msg.author.username}], timestamp: new Date(), footer: {text: msg.author.id}}}).catch(console.error);
+                    notifier.users.get(client2.user.id).send({embed: {color: 0xffad15, fields: [{name: "DC Assistent", value: "New Message From: "+ msg.author.username}], timestamp: new Date(), footer: {text: msg.author.id}}}).catch(console.error);
                     msguserlistcl2.push(msg.author.id);
                 }
             }//console.log(truefalse);
@@ -325,8 +325,8 @@ function test(msg, cl){
 }
 
 function botmsg(msg){
-    var content = msg.content.substr(config.prefixlengh),
-        owner = notifier.users.get(config.owner);
+    var content = msg.content.substr(config.prefixlengh);
+        //removed Owner Property
 
     if(msg.channel.id == config.confchannel){
         if(content.startsWith("help")){
@@ -334,9 +334,7 @@ function botmsg(msg){
             commanfile.run(client, client2, notifier, msg);
         }
         else if(content.startsWith("info")){
-            var main = notifier.users.get(config.owner),
-                mobile = notifier.users.get(config.mobile);
-            msg.channel.send({embed:{color: 0x00FF00,title: "Info-Terminal",desciption: "the Info terminal for The Assistent",thumbnail:{url: 'https://i.imgur.com/yac473o.png',}, fields:[{name: "managed accounts:", value: "1: "+ client.user.username+ "\n"+ "2: "+ client2.user.username,},{name: "Afk-Status", value: afkstatus(),},{name: "Status-info", value: "1: "+ main.presence.status+ "\n"+ "2: "+ mobile.presence.status,},{name: "Current activity (buggy)", value: ""+ gameactivity(),},], footer:{text: "runtime: "+ uptime(),},}});
+            msg.channel.send({embed:{color: 0x00FF00,title: "Info-Terminal",desciption: "the Info terminal for The Assistent",thumbnail:{url: 'https://i.imgur.com/yac473o.png',}, fields:[{name: "managed accounts:", value: "1: "+ client.user.username+ "\n"+ "2: "+ client2.user.username,},{name: "Afk-Status", value: afkstatus(),},{name: "Status-info", value: "1: "+ client.user.presence.status+ "\n"+ "2: "+ client2.user.presence.status,},{name: "Current activity (buggy)", value: ""+ gameactivity(),},], footer:{text: "runtime: "+ uptime(),},}});
         }
         else if(content.startsWith("data")){
             //main msg for client informations
@@ -366,12 +364,12 @@ function gameactivity(){
     //abfrage, ob aktivität beider gleich, sonst einzelnt. 
     if(client.user.presence.game && client2.user.presence.game){
         var mainactivity = client.user.presence.game,
-        mobileactivity = client2.user.presence.game;
+        secondactivity = client2.user.presence.game;
 
-        if(mainactivity.name == mobileactivity.name){
+        if(mainactivity.name == secondactivity.name){
             return("both: "+ mainactivity.name+ "\n type: "+ gametype());
         }else{
-            return("1: "+ mainactivity.name+ " ("+ gametype()+ ")"+ "\n 2: "+ mobileactivity.name+ " ("+ gametype()+ ")");
+            return("1: "+ mainactivity.name+ " ("+ gametype()+ ")"+ "\n 2: "+ secondactivity.name+ " ("+ gametype()+ ")");
         }
     }
     else if(client.user.presence.game){
@@ -379,8 +377,8 @@ function gameactivity(){
         return("1: "+ mainactivity.name+ " ("+ gametype()+ ")"+ "\n 2: --none--");
     }
     else if(client2.user.presence.game){
-        var mobileactivity = client2.user.presence.game;
-        return("1: --none--"+ "\n 2: "+ mobileactivity.name+ " ("+ gametype()+ ")");
+        var secondactivity = client2.user.presence.game;
+        return("1: --none--"+ "\n 2: "+ secondactivity.name+ " ("+ gametype()+ ")");
     }else{
         return("--none--");
     }
@@ -413,7 +411,7 @@ function uptime(){
 }
 
 function uploadSave(){
-    var log = notifier.channels.get(config.log);
+    var log = notifier.channels.get(config.logchannel);
 
     if(save[0] == null){
         save[0] = 0;
@@ -431,7 +429,7 @@ function uploadSave(){
 }
 function setup(){
     console.log("Run Setup...\n");
-    var log = notifier.channels.get(config.log);
+    var log = notifier.channels.get(config.logchannel);
 
     log.fetchMessages({ limit: 1 }).then(messages => {
         let lastmessage = messages.first();
