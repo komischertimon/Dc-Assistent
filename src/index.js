@@ -22,7 +22,7 @@ console.log('loading...');
 client.on('ready', ()=>{  
     console.log('--------------------------');
     console.log('Software is startet successfully!');
-    console.log(`Logged in as : ${client.user.username}`); 
+    console.log(`Logged in as : ${client.user.username} (Client)`); 
     console.log('--------------------------');
     console.log("");
 //    client.user.setStatus('online');
@@ -31,7 +31,7 @@ client.on('ready', ()=>{
 client2.on('ready', ()=>{  
     console.log('--------------------------');
     console.log('Software is startet successfully!');
-    console.log(`Logged in as : ${client2.user.username}`); 
+    console.log(`Logged in as : ${client2.user.username} (Client2)`); 
     console.log('--------------------------');
     console.log("");
 //    client.user.setStatus('online');
@@ -41,7 +41,7 @@ client2.on('ready', ()=>{
 notifier.on('ready', ()=>{
     console.log('--------------------------');
     console.log('Software is startet successfully!');
-    console.log(`Logged in as : ${notifier.user.username}`); 
+    console.log(`Logged in as : ${notifier.user.username} (managing Bot)`); 
     console.log('--------------------------');
 
     notifier.user.setActivity('Notifications', {type: "WATCHING"});
@@ -488,4 +488,4 @@ function codingwhile3(){
 //client Logins
 client.login(config.token);
 client2.login(config.token2);
-notifier.login(config.tokennotifier);
+notifier.login(config.tokennotifier).catch(console.error);

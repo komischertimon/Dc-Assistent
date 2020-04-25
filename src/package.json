@@ -1,7 +1,7 @@
 {
   "name": "Dc_Assistent",
-  "version": "0.04.20",
-  "description": "ein Bot_assistent zum managen von Discord",
+  "version": "0.04.25",
+  "description": "ein Bot_assistent zum managen von Discord Accounts",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
