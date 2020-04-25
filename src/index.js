@@ -104,7 +104,7 @@ client2.on('message', (msg)=>{
     }
 });
 notifier.on('message', (msg)=>{
-    console.log(msg.channel.type);
+//    console.log(msg.channel.type);
     if(msg.content.startsWith(config.prefix)){
         botmsg(msg);
     }
@@ -446,25 +446,37 @@ function setup(){
                     saves = saves.split("\n");
                     
                 console.log(saves);
-                if(saves[0] == 0){
-                    saves[0] = null;
-                }
-                if(saves[1] == 0){
-                    saves[1] = null;
-                }
-                if(saves[2] == 0){
-                    saves[2] = null;
-                }
-                if(saves[0] & saves[1] == "coding"){
-                    var codwhile = true;
-                    codingwhile0(codwhile);
-                }
+                if(saves[3] == "true" || saves[3] == "false" && saves[4] == "true" || saves[4] == "false" && saves[2] == Number || saves[2] == "0"){
+                    if(saves[0] == 0){
+                        saves[0] = null;
+                    }
+                    if(saves[1] == 0){
+                        saves[1] = null;
+                    }
+                    if(saves[2] == 0){
+                        saves[2] = null;
+                    }
+                    if(saves[0] & saves[1] == "coding"){
+                        var codwhile = true;
+                        codingwhile0(codwhile);
+                    }
 
-                botmsgid = saves[2];
+                    botmsgid = saves[2];
 
-                client.user.setActivity(saves[0]);
-                client2.user.setActivity(saves[1]);
-                console.log(`Activtiy set to ${saves[0]} & ${saves[1]}`);
+                    client.user.setActivity(saves[0]);
+                    client2.user.setActivity(saves[1]);
+                    console.log(`Activtiy set to ${saves[0]} & ${saves[1]}`);
+                    console.log("Setup completed!");
+                }else{
+                    console.log("invalid log. couldn't get any data. create new data");
+                    save = [0, 0, 0, false, false];
+                    uploadSave();
+                    console.log("Setup completed!");
+                }
+            }else{
+                console.log("New Log Channel. no previous Values");
+                save = [0, 0, 0, false, false];
+                uploadSave();
                 console.log("Setup completed!");
             }
         });
