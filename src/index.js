@@ -441,30 +441,32 @@ function setup(){
 
         log.fetchMessages({ limit: 1 }).then(messages => {
             let lastmessage = messages.first();
-        var saves = lastmessage.content;
-            saves = saves.split("\n");
-            
-        console.log(saves);
-        if(saves[0] == 0){
-            saves[0] = null;
-        }
-        if(saves[1] == 0){
-            saves[1] = null;
-        }
-        if(saves[2] == 0){
-            saves[2] = null;
-        }
-        if(saves[0] & saves[1] == "coding"){
-            var codwhile = true;
-            codingwhile0(codwhile);
-        }
+            if(lastmessage){
+                var saves = lastmessage.content;
+                    saves = saves.split("\n");
+                    
+                console.log(saves);
+                if(saves[0] == 0){
+                    saves[0] = null;
+                }
+                if(saves[1] == 0){
+                    saves[1] = null;
+                }
+                if(saves[2] == 0){
+                    saves[2] = null;
+                }
+                if(saves[0] & saves[1] == "coding"){
+                    var codwhile = true;
+                    codingwhile0(codwhile);
+                }
 
-        botmsgid = saves[2];
+                botmsgid = saves[2];
 
-        client.user.setActivity(saves[0]);
-        client2.user.setActivity(saves[1]);
-        console.log(`Activtiy set to ${saves[0]} & ${saves[1]}`);
-        console.log("Setup completed!");
+                client.user.setActivity(saves[0]);
+                client2.user.setActivity(saves[1]);
+                console.log(`Activtiy set to ${saves[0]} & ${saves[1]}`);
+                console.log("Setup completed!");
+            }
         });
     }catch(err){
         console.log(err);
