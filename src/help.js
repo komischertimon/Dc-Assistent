@@ -58,7 +58,7 @@ exports.run = (client, client2, notifier, msg)=>{
                     value: "ready-made: \n ac 'Activity' \n \n Custom: \n ac (afk) 'Activity' \n \n reset: \n ac reset",
                 },{
                     name: '\u200b',
-                    value: '\u200b',
+                    value: 'Pre-builded',
                     inline: false,
                 },{
                     name: "Schlafen",
@@ -79,6 +79,10 @@ exports.run = (client, client2, notifier, msg)=>{
                 },{
                     name: "netflix",
                     value: "Netflix (Afk false) \n type: Watching",
+                    inline: true,
+                },{
+                    name: "coding",
+                    value: "Coding... (Afk false) \n type: Playing",
                     inline: true,
                 }],
                 footer: {

@@ -143,7 +143,7 @@ function msgon(msg){
                 console.log("Activity Reset!");
                 var codwhile = false;
                 afktrue = false;
-                save[3] = false;
+                save[3] = afktrue;
                 client.user.setActivity(null);
                 save[0] = null;
                 client2.user.setActivity(null);
@@ -153,7 +153,7 @@ function msgon(msg){
             else if(content == "schlafen"){
                 console.log("Activity Sleep!");
                 afktrue = true;
-                save[3] = true;
+                save[3] = afktrue;
                 msguserlistcl2 = [], msguserlistcl1 = [];
                 client.user.setActivity("asleep");
                 save[0] = "asleep";
@@ -164,7 +164,7 @@ function msgon(msg){
             else if(content == "afh"){
                 console.log("Acitivity AFH!");
                 afktrue = true;
-                save[3] = true;
+                save[3] = afktrue;
                 msguserlistcl2 = [], msguserlistcl1 = [];
                 client.user.setActivity("away from home");
                 save[0] = "away from home";
@@ -175,7 +175,7 @@ function msgon(msg){
             else if(content == "weg"){
                 console.log("Acitivity absent!");
                 afktrue = true;
-                save[3] = true;
+                save[3] = afktrue;
                 msguserlistcl2 = [], msguserlistcl1 = [];
                 client.user.setActivity("absent");
                 save[0] = "absent";
@@ -186,7 +186,7 @@ function msgon(msg){
             else if(content == "essen"){
                 console.log("Activity Food!");
                 afktrue = true;
-                save[3] = true;
+                save[3] = afktrue;
                 msguserlistcl2 = [], msguserlistcl1 = [];
                 client.user.setActivity("i´m eating");
                 save[0] = "i´m eating";
@@ -197,7 +197,7 @@ function msgon(msg){
             else if(content == "netflix"){
                 console.log("Activity Netflix!");
                 afktrue = false;
-                save[3] = false;
+                save[3] = afktrue;
                 client.user.setActivity('Netflix', {type: 'WATCHING'});
                 save[0] = 'Netflix', {type: 'WATCHING'};
                 client2.user.setActivity('Netflix', {type: 'WATCHING'});
@@ -207,7 +207,7 @@ function msgon(msg){
 			  else if(content == "youtube"){
                 console.log("Activity Youtube!");
                 afktrue = false;
-                save[3] = false;
+                save[3] = afktrue;
                 client.user.setActivity('Youtube', {type: 'WATCHING'});
                 save[0] = 'Youtube', {type: 'WATCHING'};
                 client2.user.setActivity('Youtube', {type: 'WATCHING'});
@@ -216,7 +216,12 @@ function msgon(msg){
             }
 			else if(content == "coding"){
                 var codwhile = true;
-				codingwhile0(codwhile);
+                afktrue = false;
+                save[3] = afktrue;
+                codingwhile0(codwhile);
+                save[0] = "coding";
+                save[1] = "coding";
+                uploadSave();
 			}
             else if(content == "st"){
                 console.log("Status Reset!");
@@ -228,7 +233,7 @@ function msgon(msg){
                 var cleancontent;
                 if(content[0] == "afk"){
                     afktrue = true;
-                    save[3] = true;
+                    save[3] = afktrue;
                     msguserlistcl2 = [], msguserlistcl1 = [];
                     cleancontent = content.slice(1).toString(" ").replace(/,/g, " ");
                     client.user.setActivity(cleancontent);
@@ -256,7 +261,8 @@ function msgon(msg){
                 client2.user.setActivity(content);
         }
         else if(uncutcontent.startsWith("test")){
-            msg.channel.send("None Test Active!");
+//            msg.channel.send("None Test Active!");
+            console.log("input lel");
         }
         else if(uncutcontent.startsWith("afk")){
             if(content == "on"){
@@ -334,11 +340,11 @@ function botmsg(msg){
             commanfile.run(client, client2, notifier, msg);
         }
         else if(content.startsWith("info")){
-            msg.channel.send({embed:{color: 0x00FF00,title: "Info-Terminal",desciption: "the Info terminal for The Assistent",thumbnail:{url: 'https://i.imgur.com/yac473o.png',}, fields:[{name: "managed accounts:", value: "1: "+ client.user.username+ "\n"+ "2: "+ client2.user.username,},{name: "Afk-Status", value: afkstatus(),},{name: "Status-info", value: "1: "+ client.user.presence.status+ "\n"+ "2: "+ client2.user.presence.status,},{name: "Current activity (buggy)", value: ""+ gameactivity(),},], footer:{text: "runtime: "+ uptime(),},}});
+            msg.channel.send({embed:{color: 0x00FF00,title: "Info-Terminal",desciption: "the Info terminal for The Assistent",thumbnail:{url: notifier.user.avatarURL,}, fields:[{name: "managed accounts:", value: "1: "+ client.user.username+ "\n"+ "2: "+ client2.user.username,},{name: "Afk-Status", value: afkstatus(),},{name: "Status-info", value: "1: "+ client.user.presence.status+ "\n"+ "2: "+ client2.user.presence.status,},{name: "Current activity (buggy)", value: ""+ gameactivity(),},], footer:{text: "runtime: "+ uptime(),},}});
         }
         else if(content.startsWith("data")){
             //main msg for client informations
-            msg.channel.send({embed:{color: 0xFF00FF,title: "App-data", desciption: package.desciption, thumbnail:{url: 'https://i.imgur.com/yac473o.png',}, fields:[{name: "Name:", value: package.name},{name: "Run Script:", value: package.scripts.start},{name: "Author:", value: package.author},{name: "dependencies", value: `discord.js: ${package.dependencies[0]} \n fs: ${package.dependencies[1]} \n mysql: ${package.dependencies[2]}`}], footer:{text: `version: ${package.version}`}}});
+            msg.channel.send({embed:{color: 0xFF00FF,title: "App-data", desciption: package.desciption, thumbnail:{url: notifier.user.avatarURL,}, fields:[{name: "Name:", value: package.name},{name: "Run Script:", value: package.scripts.start},{name: "Author:", value: package.author},{name: "dependencies", value: `discord.js: ${package.dependencies[0]} \n fs: ${package.dependencies[1]} \n mysql: ${package.dependencies[2]}`}], footer:{text: `version: ${package.version}`}}});
         }
         else if(content.startsWith("assistent shutdown")){
             msg.channel.send("Shuting Down...").then(setTimeout(process.exit(), 100));
@@ -447,6 +453,10 @@ function setup(){
         }
         if(saves[2] == 0){
             saves[2] = null;
+        }
+        if(saves[0] & saves[1] == "coding"){
+            var codwhile = true;
+            codingwhile0(codwhile);
         }
 
         botmsgid = saves[2];
