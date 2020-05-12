@@ -25,7 +25,7 @@ client.on('ready', ()=>{
     console.log(`Logged in as : ${client.user.username} (Client)`); 
     console.log('--------------------------');
     console.log("");
-//    client.user.setStatus('online');
+
     client.user.setActivity('Manager Active!', {type: "PLAYING"});
 });
 client2.on('ready', ()=>{  
@@ -34,7 +34,7 @@ client2.on('ready', ()=>{
     console.log(`Logged in as : ${client2.user.username} (Client2)`); 
     console.log('--------------------------');
     console.log("");
-//    client.user.setStatus('online');
+
     client2.user.setActivity('Manager Active!', {type: "PLAYING"});
     setTimeout(myf, 5000);
 });
