@@ -1,9 +1,13 @@
 const Discord = require('discord.js');
+const cron = require('cron');
 const fs = require("fs");
 
-const config = JSON.parse(fs.readFileSync('config.json','utf-8'));
-const package = JSON.parse(fs.readFileSync('package.json','utf-8'));
-
+const config = JSON.parse(fs.readFileSync(`${__dirname}/config.json`,'utf-8'));
+const package = JSON.parse(fs.readFileSync(`${__dirname}/package.json`,'utf-8'));
+/*
+var presenceToken = '633756594387025977';
+const rpc = require('discord-rich-presence')(presenceToken);
+*/
 var client = new Discord.Client(),
     client2 = new Discord.Client(),
     notifier = new Discord.Client(),
@@ -25,8 +29,11 @@ client.on('ready', ()=>{
     console.log(`Logged in as : ${client.user.username} (Client)`); 
     console.log('--------------------------');
     console.log("");
-
+//    client.user.setStatus('online');
     client.user.setActivity('Manager Active!', {type: "PLAYING"});
+
+    const runfile = require(`${__dirname}/celBump.js`);
+    runfile(client, cron);
 });
 client2.on('ready', ()=>{  
     console.log('--------------------------');
@@ -34,7 +41,7 @@ client2.on('ready', ()=>{
     console.log(`Logged in as : ${client2.user.username} (Client2)`); 
     console.log('--------------------------');
     console.log("");
-
+//    client.user.setStatus('online');
     client2.user.setActivity('Manager Active!', {type: "PLAYING"});
     setTimeout(myf, 5000);
 });
@@ -114,6 +121,7 @@ notifier.on('message', (msg)=>{
         save[2] = botmsgid;
         uploadSave();
     }
+
 });
 
 notifier.on('messageReactionAdd', (reaction, user)=>{
@@ -149,6 +157,8 @@ function msgon(msg){
                 client2.user.setActivity(null);
                 save[1] = null;
                 uploadSave(codwhile);
+
+//                richKill();
             }
             else if(content == "schlafen"){
                 console.log("Activity Sleep!");
@@ -194,15 +204,21 @@ function msgon(msg){
                 save[1] = "i´m eating";
                 uploadSave();
             }
-            else if(content == "netflix"){
+            else if(uncutcontent.startsWith("ac netflix")){
                 console.log("Activity Netflix!");
-                afktrue = false;
-                save[3] = afktrue;
-                client.user.setActivity('Netflix', {type: 'WATCHING'});
-                save[0] = 'Netflix', {type: 'WATCHING'};
-                client2.user.setActivity('Netflix', {type: 'WATCHING'});
-                save[1] = 'Netflix', {type: 'WATCHING'};
-                uploadSave();
+           
+                var myC = uncutcontent.split(",").slice(1),
+                    title = myC[0],
+                    duration = myC[1], //to INT
+                    state = myC[2], //if 0
+                    largeImg = 'netflix_logo',
+                    smallImg = 'movie_ico';
+
+                console.log("dur: "+ duration);
+                duration = parseInt(duration);
+                duration = duration * 60000;
+;
+                richPresence(title, state, duration, largeImg, smallImg);
             }
 			  else if(content == "youtube"){
                 console.log("Activity Youtube!");
@@ -299,7 +315,7 @@ function awhas(msg, cl){
             //brauche einen check, ob der user bereits eine abwesenheitsnachricht bekommen hat!
             test(msg, cl);
             if(truefalse == undefined){
-                console.log("new unread Message from: "+ msg.author.username+ "!");
+                console.log(`new unread Message from: <@msg.author.username>!`);
                 msg.channel.send("Ich bin aktuell nicht erreichbar, werde mich aber Schnellstmöglich bei dir melden!");
 
                 if(cl == "1"){
@@ -507,6 +523,37 @@ function codingwhile3(){
     client2.user.setActivity("Coding...");
     setTimeout(codingwhile0, 3000);
 }
+
+
+function richPresence(title, state, duration, largeImg, smallImg){
+    var rpcUpdate = {};
+    duration = Date.now() + duration;
+
+        rpcUpdate.details = title,
+        rpcUpdate.state = state,
+        rpcUpdate.startTimestamp = Date.now(),
+        rpcUpdate.largeImageKey = largeImg,
+        rpcUpdate.largeImageText = "┌П┐(◉_◉)┌П┐",
+        rpcUpdate.smallImageKey = smallImg;
+
+    if(duration > Date.now()){
+        rpcUpdate.endTimestamp = duration;
+    };
+
+    rpc.updatePresence(rpcUpdate);
+}
+function richKill(){
+    try {rpc.disconnect();}
+    catch (err){
+        if(err){
+            console.log("Rich Present Reseted");
+        }else{
+        //console.log(err);
+        }
+    }
+}
+
+
 
 
 //client Logins
