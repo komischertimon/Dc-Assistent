@@ -321,6 +321,7 @@ function awhas(msg, cl){
                 if(cl == "1"){
                     //Pc Angeschrieben
                     notifier.users.get(client.user.id).send({embed: {color: 0xffad15, fields: [{name: "DC Assistent", value: "New Message From: "+ msg.author.username}], timestamp: new Date(), footer: {text: msg.author.id}}}).catch(console.error);
+                    notifier.users.get(client2.user.id).send({embed: {color: 0x0bdb43, thumbnail:{url: msg.author.avatarURL}, fields: [{name: `New Message To ${client.user.username}`, value: `From: <@${msg.author.id}>`},{name: "Content:", value: msg.content}], timestamp: new Date(), footer: {text: msg.author.id}}}).catch(console.error);
                     msguserlistcl1.push(msg.author.id);
                 }
                 else if(cl == "2"){
@@ -460,17 +461,21 @@ function setup(){
             if(lastmessage){
                 var saves = lastmessage.content;
                     saves = saves.split("\n");
-                    
+
                 console.log(saves);
-                if(saves[3] == "true" || saves[3] == "false" && saves[4] == "true" || saves[4] == "false" && saves[2] == Number || saves[2] == "0"){
+                try{
+                    if(saves[2] == "0"){
+                        saves[2] = 0;
+                    }else{
+                        saves[2] = saves[2].parseInt;
+                    }
+                    saves[3] = (saves[3] == 'true');
+                    saves[4] = (saves[4] == 'true');
                     if(saves[0] == 0){
                         saves[0] = null;
                     }
                     if(saves[1] == 0){
                         saves[1] = null;
-                    }
-                    if(saves[2] == 0){
-                        saves[2] = null;
                     }
                     if(saves[0] & saves[1] == "coding"){
                         var codwhile = true;
@@ -479,11 +484,13 @@ function setup(){
 
                     botmsgid = saves[2];
 
+                    afktrue = saves[3];
+                    afktruem = saves[4];
                     client.user.setActivity(saves[0]);
                     client2.user.setActivity(saves[1]);
                     console.log(`Activtiy set to ${saves[0]} & ${saves[1]}`);
                     console.log("Setup completed!");
-                }else{
+                }catch{
                     console.log("invalid log. couldn't get any data. create new data");
                     save = [0, 0, 0, false, false];
                     uploadSave();
@@ -501,6 +508,7 @@ function setup(){
     }
 }
 
+//the Coding... activity while (should be updated)
 function codingwhile0(codwhile){
     client.user.setActivity("Coding");
     client2.user.setActivity("Coding");
@@ -524,7 +532,7 @@ function codingwhile3(){
     setTimeout(codingwhile0, 3000);
 }
 
-
+//RPC activity in progress
 function richPresence(title, state, duration, largeImg, smallImg){
     var rpcUpdate = {};
     duration = Date.now() + duration;
@@ -555,8 +563,7 @@ function richKill(){
 
 
 
-
 //client Logins
 client.login(config.token);
 client2.login(config.token2);
-notifier.login(config.tokennotifier).catch(console.error);
+notifier.login(config.tokennotifier);
