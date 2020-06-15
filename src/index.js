@@ -578,6 +578,8 @@ try{
             client2.login(config.token2)
             notifier.login(config.tokennotifier)
         }, 30000);
+    }else{
+        console.log(err);
     }
 }
 
