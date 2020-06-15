@@ -564,6 +564,31 @@ function richKill(){
 
 
 //client Logins
-client.login(config.token);
-client2.login(config.token2);
-notifier.login(config.tokennotifier);
+try{
+    client.login(config.token)
+    client2.login(config.token2)
+    notifier.login(config.tokennotifier)
+}catch(err){
+    console.log(err);
+    if(err.code == 'EAI_AGAIN' || err.code == 'ETIMEDOUT'){
+        console.log(`------------------------\n>CONNECTION ERROR DETECTED<\n------------------------`);
+        setTimeout(function(){
+            destroyAll();
+            client.login(config.token)
+            client2.login(config.token2)
+            notifier.login(config.tokennotifier)
+        }, 30000);
+    }
+}
+
+function destroyAll(){
+    try{
+        client.destroy();
+    }catch(e){};
+    try{
+        client2.destroy();
+    }catch(e){};
+    try{
+        notifier.destroy();
+    }catch(e){};
+}
