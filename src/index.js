@@ -570,7 +570,7 @@ try{
     notifier.login(config.tokennotifier)
 }catch(err){
     console.log(err);
-    if(err.code == 'EAI_AGAIN' || err.code == 'ETIMEDOUT'){
+    if(err.code == 'EAI_AGAIN' || err.code == 'ETIMEDOUT' || err.code == 'ERR_UNHANDLED_ERROR'){
         console.log(`------------------------\n>CONNECTION ERROR DETECTED<\n------------------------`);
         setTimeout(function(){
             destroyAll();
