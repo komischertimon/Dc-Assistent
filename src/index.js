@@ -14,10 +14,11 @@ var client = new Discord.Client(),
     msguserlistcl1 = new Array(),
     msguserlistcl2 = new Array(),
     save = new Array(),
-    afktrue,
-    afktruem,
-    botmsgid,
-    truefalse;
+    afktrue = Boolean,
+    afktruem = Boolean,
+    botmsgid = Number,
+    truefalse = Boolean,
+    reply = Boolean;
 
 
 //Startvorgang
@@ -111,24 +112,28 @@ client2.on('message', (msg)=>{
     }
 });
 notifier.on('message', (msg)=>{
-//    console.log(msg.channel.type);
     if(msg.content.startsWith(config.prefix)){
         botmsg(msg);
     }
-    if(msg.author.id == notifier.user.id && msg.content[0] == undefined && msg.channel.type == "dm"){
-        msg.react('✅').catch(console.error);
-        botmsgid = msg.id;
-        save[2] = botmsgid;
-        uploadSave();
+    if(msg.channel.type == "dm" && reply){
+        if(msg.author.id == client.user.id || msg.author.id == client2.user.id){
+            
+        }
     }
-
 });
 
 notifier.on('messageReactionAdd', (reaction, user)=>{
-    if(user.id == client.user.id || user.id == client2.user.id && reaction.message.channel.type == "dm" && reaction.count == "2"){
-        console.log("user react!");
-        reaction.message.delete().catch(console.error);
-    }    
+    if(user.id == client.user.id || user.id == client2.user.id){
+        if(reaction.message.channel.type == "dm" && reaction.count == "2"){
+            if(reaction.emoji.name == "✅"){
+                console.log("user react!");
+                reaction.message.delete().catch(console.error);
+            }
+            else if(reaction.emoji.name == "↪️"){
+                reply == true;
+            }
+        }
+    }
 });
 
 
@@ -320,13 +325,29 @@ function awhas(msg, cl){
 
                 if(cl == "1"){
                     //Pc Angeschrieben
-                    notifier.users.get(client.user.id).send({embed: {color: 0xffad15, fields: [{name: "DC Assistent", value: "New Message From: "+ msg.author.username}], timestamp: new Date(), footer: {text: msg.author.id}}}).catch(console.error);
-                    notifier.users.get(client2.user.id).send({embed: {color: 0x0bdb43, thumbnail:{url: msg.author.avatarURL}, fields: [{name: `New Message To ${client.user.username}`, value: `From: <@${msg.author.id}>`},{name: "Content:", value: msg.content}], timestamp: new Date(), footer: {text: msg.author.id}}}).catch(console.error);
+                    notifier.users.get(client.user.id).send({embed: {color: 0xffad15, fields: [{name: "DC Assistent", value: "New Message From: "+ msg.author.username}], timestamp: new Date(), footer: {text: msg.author.id}}}).then(msg=>{
+                        msg.react('✅');
+                        botmsgid = msg.id;
+                        save[2] = botmsgid;
+                        uploadSave();
+                    });
+                    notifier.users.get(client2.user.id).send({embed: {color: 0x0bdb43, thumbnail:{url: msg.author.avatarURL}, fields: [{name: `New Message To ${client.user.username}`, value: `From: <@${msg.author.id}>`},{name: "Content:", value: msg.content}], timestamp: new Date(), footer: {text: msg.author.id}}}).then(msg=>{
+                        msg.react('✅');
+                        msg.react('↪️');
+                        botmsgid = msg.id;
+                        save[2] = botmsgid;
+                        uploadSave();
+                    });
                     msguserlistcl1.push(msg.author.id);
                 }
                 else if(cl == "2"){
                     //Handy Angeschrieben
-                    notifier.users.get(client2.user.id).send({embed: {color: 0xffad15, fields: [{name: "DC Assistent", value: "New Message From: "+ msg.author.username}], timestamp: new Date(), footer: {text: msg.author.id}}}).catch(console.error);
+                    notifier.users.get(client2.user.id).send({embed: {color: 0xffad15, fields: [{name: "DC Assistent", value: "New Message From: "+ msg.author.username}], timestamp: new Date(), footer: {text: msg.author.id}}}).then(msg=>{
+                        msg.react('✅');
+                        botmsgid = msg.id;
+                        save[2] = botmsgid;
+                        uploadSave();
+                    });
                     msguserlistcl2.push(msg.author.id);
                 }
             }//console.log(truefalse);
@@ -349,7 +370,7 @@ function test(msg, cl){
 
 function botmsg(msg){
     var content = msg.content.substr(config.prefixlengh);
-        //removed Owner Property
+    //removed Owner Property
 
     if(msg.channel.id == config.confchannel){
         if(content.startsWith("help")){
@@ -366,7 +387,7 @@ function botmsg(msg){
         else if(content.startsWith("assistent shutdown")){
             msg.channel.send("Shuting Down...").then(setTimeout(process.exit(), 100));
         }else{
-            msg.channel.send("This Command doesn´t exist")
+            msg.channel.send("This Command doesn´t exist");
         }
     }
 }
