@@ -10,7 +10,7 @@ const rpc = require('discord-rich-presence')(presenceToken);
 */
 var client = new Discord.Client(),
     client2 = new Discord.Client(),
-    notifier = new Discord.Client(),
+    notifier = new Discord.Client({"partials": ['CHANNEL','REACTION', 'MESSAGE']}),
     msguserlistcl1 = new Array(),
     msguserlistcl2 = new Array(),
     save = new Array(),
@@ -18,7 +18,7 @@ var client = new Discord.Client(),
     afktruem = Boolean,
     botmsgid = Number,
     truefalse = Boolean,
-    reply = Boolean;
+    reply;
 
 
 //Startvorgang
@@ -111,13 +111,14 @@ client2.on('message', (msg)=>{
         awhas(msg, cl);
     }
 });
-notifier.on('message', (msg)=>{
+notifier.on('message', async (msg)=>{
     if(msg.content.startsWith(config.prefix)){
         botmsg(msg);
     }
     if(msg.channel.type == "dm" && reply){
         if(msg.author.id == client.user.id || msg.author.id == client2.user.id){
-            
+            client.users.get(reply).send(msg.content);
+            reply = false;
         }
     }
 });
@@ -126,11 +127,10 @@ notifier.on('messageReactionAdd', (reaction, user)=>{
     if(user.id == client.user.id || user.id == client2.user.id){
         if(reaction.message.channel.type == "dm" && reaction.count == "2"){
             if(reaction.emoji.name == "✅"){
-                console.log("user react!");
                 reaction.message.delete().catch(console.error);
             }
-            else if(reaction.emoji.name == "↪️"){
-                reply == true;
+            else if(reaction.emoji.name == "↪️" && reaction.count == "2"){
+                reply = reaction.message.embeds[0].footer.text;
             }
         }
     }
