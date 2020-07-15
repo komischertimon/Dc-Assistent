@@ -97,13 +97,15 @@ client.on('message', (msg)=>{
         awhas(msg, cl);
     }
     //aktuell bedeutungslos
+
     if(msg.content.startsWith("s ")){
-        msgonma(msg);
+//        msgonma(msg);
     }else if(msg.content.startsWith("sm ")){
-        msgonmo(msg);
+//        msgonmo(msg);
     }else{
         msgon(msg);
     }
+
 });
 client2.on('message', (msg)=>{
     if(afktrue == true || afktruem == true){
@@ -196,6 +198,17 @@ function msgon(msg){
                 save[0] = "absent";
                 client2.user.setActivity("absent");
                 save[1] = "absent";
+                uploadSave();
+            }
+            else if(content == "dnd"){
+                console.log("Activity do not disturb!");
+                afktrue = true;
+                save[3] = afktrue;
+                msguserlistcl2 = [], msguserlistcl1 = [];
+                client.user.setActivity("do not disturb");
+                save[0] = "do not disturb";
+                client2.user.setActivity("do not disturb");
+                save[1] = "do not disturb";
                 uploadSave();
             }
             else if(content == "essen"){
