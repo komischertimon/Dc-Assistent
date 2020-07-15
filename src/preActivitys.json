@@ -1,0 +1,10 @@
+{
+    "reset": [false, null, null],
+    "schlafen": [true, "asleep", "PLAYING"],
+    "afh": [true, "away from home", "PLAYING"],
+    "weg": [true, "absent", "PLAYING"],
+    "dnd": [true, "do not disturb", "PLAYING"],
+    "essen": [true, "i´m eating", "PLAYING"],
+    "yt": [false, "Youtube", "WATCHING"],
+    "coding": [false, "Coding...", "PLAYING"]
+}
