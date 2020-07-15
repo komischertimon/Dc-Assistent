@@ -6,5 +6,6 @@
     "dnd": [true, "do not disturb", "PLAYING"],
     "essen": [true, "i´m eating", "PLAYING"],
     "yt": [false, "Youtube", "WATCHING"],
+    "netflix": [false, "Netflix", "WATCHING"],
     "coding": [false, "Coding...", "PLAYING"]
 }

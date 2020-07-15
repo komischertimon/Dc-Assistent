@@ -6,18 +6,10 @@ const config = JSON.parse(fs.readFileSync(`${__dirname}/config.json`,'utf-8'));
 const package = JSON.parse(fs.readFileSync(`${__dirname}/package.json`,'utf-8'));
 
 const comAlliasses = JSON.parse(fs.readFileSync(`${__dirname}/shortcuts.json`, "utf-8"));
-/*
-var presenceToken = '633756594387025977';
-const rpc = require('discord-rich-presence')(presenceToken);
-*/
+
 var client = new Discord.Client(),
     client2 = new Discord.Client(),
-    notifier = new Discord.Client({"partials": ['CHANNEL','REACTION', 'MESSAGE']}),
-    msguserlistcl1 = new Array(),
-    msguserlistcl2 = new Array(),
-    save = new Array(),
-    afktrue = Boolean,
-    reply;
+    notifier = new Discord.Client({"partials": ['CHANNEL','REACTION', 'MESSAGE']});
 
 
 //Startvorgang
@@ -61,13 +53,13 @@ client.on('voiceStateUpdate', (oldMember, newMember)=>{
 });
 
 client.on('message', (msg)=>{
-    if(afktrue == true){
+    if(save.afk){
         let awhas = require(`${__dirname}/automatic/absenceAssistants.js`);
         awhas(client, client2, notifier, msg, "1");
     }
 });
 client2.on('message', (msg)=>{
-    if(afktrue == true){
+    if(save.afk){
         let awhas = require(`${__dirname}/automatic/absenceAssistants.js`);
         awhas(msg, "2");
     }
@@ -101,8 +93,8 @@ notifier.on('message', async (msg)=>{
 
     if(msg.channel.type == "dm" && reply){
         if(msg.author.id == client.user.id || msg.author.id == client2.user.id){
-            client.users.get(reply).send(msg.content);
-            reply = false;
+            client.users.get(save.reply).send(msg.content);
+            save.reply = false;
         }
     }
 });
@@ -112,24 +104,6 @@ notifier.on('messageReactionAdd', (reaction, user)=>{
     run(reaction, user);
 });
 
-
-function uploadSave(){
-    var log = notifier.channels.get(config.logchannel);
-
-    if(save[0] == null){
-        save[0] = 0;
-    }
-    if(save[1] == null){
-        save[1] = 0;
-    }
-    if(save[2] == null){
-        save[2] = 0;
-    }
-
-
-    log.send(save).catch(console.error);
-    console.log(save+ " Uploaded!");
-}
 
 
 
