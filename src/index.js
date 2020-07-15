@@ -4,6 +4,7 @@ const { dirname } = require('path');
 
 const config = JSON.parse(fs.readFileSync(`${__dirname}/config.json`,'utf-8'));
 const package = JSON.parse(fs.readFileSync(`${__dirname}/package.json`,'utf-8'));
+const save = JSON.parse(fs.readFileSync(`${__dirname}/save.json`, "utf-8"));
 
 const comAlliasses = JSON.parse(fs.readFileSync(`${__dirname}/shortcuts.json`, "utf-8"));
 
@@ -72,7 +73,6 @@ notifier.on('message', async (msg)=>{
             content[0] = content[0].substr(config.prefixlengh);
             
             if(comAlliasses[content[0]]){content[0] = comAlliasses[content[0]]}
-
             try{
                 let command = require(`${__dirname}/notCommands/${content[0]}.js`);
                 command(client, client2, notifier, msg, content);
@@ -81,7 +81,6 @@ notifier.on('message', async (msg)=>{
             }
         }else{
             if(comAlliasses[content[0]]){content[0] = comAlliasses[content[0]]}
-
             try{
                 let command = require(`${__dirname}/commands/${content[0]}.js`);
                 command(client, client2, notifier, msg, content);

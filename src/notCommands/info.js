@@ -1,4 +1,4 @@
-exports.run = (client, client2, notifier, msg, msg)=>{
+exports.run = (client, client2, notifier, msg)=>{
     msg.channel.send({
         embed:{
             color: 0x00FF00,
