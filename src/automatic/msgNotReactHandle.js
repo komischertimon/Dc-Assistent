@@ -1,5 +1,6 @@
-module.exports = (reaction, user) => {
-    const save = JSON.parse(fs.readFileSync(`${__dirname}/save.json`, "utf-8"));
+module.exports = (client, client2, notifier, reaction, user) => {
+    const fs = require('fs');
+    const save = JSON.parse(fs.readFileSync(`${__dirname}/../save.json`, "utf-8"));
 
     if(user.id == client.user.id || user.id == client2.user.id){
         if(reaction.message.channel.type == "dm" && reaction.count == "2"){

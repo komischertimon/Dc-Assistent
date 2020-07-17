@@ -10,6 +10,8 @@ module.exports = (client, client2, notifier, msg, content) => {
     }
     else if(content[0] == "off"){
         save.afk = false;
+        save.awhUser1 = [];
+        save.awhUser2 = [];
     }
 
     fs.writeFileSync(`${__dirname}/../save.json`, JSON.stringify(save));
