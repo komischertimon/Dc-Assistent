@@ -61,6 +61,10 @@ client.on('message', (msg)=>{
         let awhas = require(`${__dirname}/automatic/absenceAssistants.js`);
         awhas(client, client2, notifier, msg, "1");
     }
+    else if(save.aw){
+        let aw = require(`${__dirname}/automatic/automaticWriting.js`);
+        aw(client, client2, notifier, msg, content);
+    }
 });
 client2.on('message', (msg)=>{
     var save = JSON.parse(fs.readFileSync(`${__dirname}/save.json`, "utf-8"));
