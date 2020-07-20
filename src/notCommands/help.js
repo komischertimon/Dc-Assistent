@@ -91,6 +91,25 @@ exports.run = (client, client2, notifier, msg, msg)=>{
             }
         }).catch(console.error);
     }
+    else if(content[0] == "aw"){
+        msg.channel.send({embed:
+            {
+                color: 0x0099ff,
+                title: "Help-Auto Write",
+                description: "Answer if active automaticly to some phrases",
+                thumbnail: {
+                    url: notifier.user.avatarURL(),
+                },
+                fields: [{
+                        name: "Syntax",
+                        value: "aw on \naw off",
+                }],
+                footer: {
+                    text:"Owner: "+ owner.username
+                }
+            }
+        });
+    }
     else if(content[0] == "info"){
         msg.channel.send({embed: 
             {
