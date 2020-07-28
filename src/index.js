@@ -115,7 +115,7 @@ notifier.on('message', (msg)=>{
         if(msg.author.id == client2.user.id){
             console.log("answer sent");
             client.users.get(save.reply[0]).send(msg.content);
-            msg.channel.fetchMessage(save.reply[1]).reactions.delete("↪️");
+            msg.channel.fetchMessage(save.reply[1]).reactions.resolve("↪️").users.remove(client2);
 
             save.reply[0] = false;
 
