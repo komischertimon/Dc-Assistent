@@ -110,12 +110,14 @@ notifier.on('message', (msg)=>{
         }
     }
 
-    if(msg.channel.type == "dm" && save.reply){
+    if(msg.channel.type == "dm" && save.reply[0]){
         console.log("isset");
         if(msg.author.id == client2.user.id){
             console.log("answer sent");
-            client.users.get(save.reply).send(msg.content);
-            save.reply = false;
+            client.users.get(save.reply[0]).send(msg.content);
+            msg.channel.fetchMessage(save.reply[1]).reactions.delete("↪️");
+
+            save.reply[0] = false;
 
             fs.writeFileSync(`${__dirname}/save.json`, JSON.stringify(save));
         }
