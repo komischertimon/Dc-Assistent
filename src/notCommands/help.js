@@ -1,5 +1,4 @@
-exports.run = (client, client2, notifier, msg, msg)=>{
-//  const Discord = require('discord.js');
+module.exports = (client, client2, notifier, msg)=>{
     const fs = require("fs");
 
     const config = JSON.parse(fs.readFileSync('./config.json','utf-8'));
@@ -13,7 +12,7 @@ exports.run = (client, client2, notifier, msg, msg)=>{
                 title: "Help-Afk",
                 description: "Turn on/off Afk-Assistent",
                 thumbnail: {
-                    url: notifier.user.avatarURL(),
+                    url: notifier.user.avatarURL,
                 },
                 fields: [{
                     name: "Syntax",

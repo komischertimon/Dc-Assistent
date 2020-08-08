@@ -1,4 +1,6 @@
-exports.run = (client, client2, notifier, msg, msg)=>{
+module.exports = (client, client2, notifier, msg)=>{
+    const package = JSON.parse(fs.readFileSync(`${__dirname}/package.json`,'utf-8'));
+
     msg.channel.send({
         embed:{
             color: 0xFF00FF,
