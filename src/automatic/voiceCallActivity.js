@@ -1,5 +1,6 @@
 module.exports = (oldMember, newMember)=>{
-    const save = JSON.parse(fs.readFileSync(`${__dirname}/save.json`, "utf-8"));
+    const fs = require('fs');
+    const save = JSON.parse(fs.readFileSync(`${__dirname}/../save.json`, "utf-8"));
 
     if(oldMember.voiceChannel == undefined && newMember.voiceChannel != undefined){
         // User Joins a voice channel
