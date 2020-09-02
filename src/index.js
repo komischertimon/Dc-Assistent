@@ -20,10 +20,6 @@ client.on('ready', ()=>{
     console.log(`Logged in as : ${client.user.username} (Client)`); 
     console.log('--------------------------');
     console.log("");
-    client.user.setActivity('Manager Active!', {type: "PLAYING"});
-
-    let run = require(`${__dirname}/automatic/celBump.js`);
-    run(client);
 });
 client2.on('ready', ()=>{  
     console.log('--------------------------');
@@ -31,7 +27,6 @@ client2.on('ready', ()=>{
     console.log(`Logged in as : ${client2.user.username} (Client2)`); 
     console.log('--------------------------');
     console.log("");
-    client2.user.setActivity('Manager Active!', {type: "PLAYING"});
 });
 notifier.on('ready', ()=>{
     console.log('--------------------------');
